@@ -9,11 +9,12 @@ use Filament\Resources\Pages\ListRecords;
 class ListSolicitations extends ListRecords
 {
     protected static string $resource = SolicitationResource::class;
-
+    protected static ?string $title = 'Listagem de Solicitações';
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->label('Adicionar Solicitação'),
         ];
     }
 }

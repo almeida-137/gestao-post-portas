@@ -15,7 +15,6 @@ class CreateSolicitationTable extends Migration
             $table->date('dataDoPedido');
             $table->string('cliente');
             $table->string('montador');
-            $table->string('motivoGeral');
             $table->json('itens')->nullable();
             $table->timestamps();
         });

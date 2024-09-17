@@ -9,11 +9,12 @@ use Filament\Resources\Pages\EditRecord;
 class EditSolicitation extends EditRecord
 {
     protected static string $resource = SolicitationResource::class;
-
+    protected static ?string $title = 'Editar Solicitação';
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
+                ->label('Deletar'),
         ];
     }
 }

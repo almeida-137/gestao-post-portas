@@ -9,4 +9,5 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateSolicitation extends CreateRecord
 {
     protected static string $resource = SolicitationResource::class;
+    protected static ?string $title = 'Criar Solicitação';
 }

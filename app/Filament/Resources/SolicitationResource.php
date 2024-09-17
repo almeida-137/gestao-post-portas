@@ -16,9 +16,12 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class SolicitationResource extends Resource
 {
     protected static ?string $model = Solicitation::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    public static function getNavigationLabel(): string
+    {
+        return 'Solicitações'; 
+    }
     public static function form(Form $form): Form
     {
         return $form
@@ -136,12 +139,14 @@ class SolicitationResource extends Resource
             ->filters([
                 //
             ])
-            ->headerActions([
-                Tables\Actions\CreateAction::make(),
-            ])
+            // ->headerActions([
+            //     Tables\Actions\CreateAction::make(),
+            // ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->label('Editar'),
+                Tables\Actions\DeleteAction::make()
+                    ->label('Deletar'),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
