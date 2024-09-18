@@ -175,7 +175,6 @@ class SolicitationResource extends Resource
             'index' => Pages\ListSolicitations::route('/'),
             'create' => Pages\CreateSolicitation::route('/create'),
             'edit' => Pages\EditSolicitation::route('/{record}/edit'),
-            'show' => Pages\ShowSolicitation::route('/{record}'),
         ];
     }
 }
