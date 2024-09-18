@@ -5,13 +5,10 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\SolicitationController;
 
 Route::get('/solicitations/export-all', [SolicitationController::class, 'exportAll'])->name('solicitations.export-all');
+Route::get('/admin/solicitation/{record}', [SolicitationController::class, 'show'])->name('admin.solicitations.show');
 
-// Route::post('/solicitations/export', [SolicitationController::class, 'exportSelected'])->name('solicitations.export');
 
 Route::get('/', function () {
-    // if (Auth::check()) {
-    return redirect()->route('filament.admin.pages.dashboard'); // ou a rota apropriada do Filament
-    // }
+    return redirect()->route('filament.admin.resources.solicitations.index'); // ou a rota apropriada do Filament
 
-    // return view('welcome'); // ou outra view para não autenticados
 });

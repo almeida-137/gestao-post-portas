@@ -13,7 +13,8 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Actions\BulkAction;
-
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+use App\Exports\SolicitationsExport;
 
 class SolicitationResource extends Resource
 {
@@ -140,7 +141,7 @@ class SolicitationResource extends Resource
                 Tables\Columns\TextColumn::make('loja'),
                 Tables\Columns\TextColumn::make('dataDoPedido'),
                 Tables\Columns\TextColumn::make('montador'),
-            ])
+        ])
             ->filters([
                 //
             ])
@@ -148,21 +149,16 @@ class SolicitationResource extends Resource
             //     Tables\Actions\CreateAction::make(),
             // ])
             ->actions([
+                // Tables\Actions\Action::make('Detalhes')
+                //     ->url(fn ($record) => route('admin.solicitations.show', $record)),
                 Tables\Actions\EditAction::make()
                     ->label('Editar'),
                 Tables\Actions\DeleteAction::make()
                     ->label('Deletar'),
-                // Tables\Actions\Action::make('Exportar CSV')
-                //     ->url(route('solicitations.export'))
-                //     ->requiresConfirmation()
-                //     ->color('success'),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-                // BulkAction::make('Exportar Selecionados')
-                // ->action('exportSelected')
-                // ->requiresConfirmation()
-                // ->color('success'),
+                // ExportBulkAction::make()              
             ]);
     }
 
@@ -179,6 +175,7 @@ class SolicitationResource extends Resource
             'index' => Pages\ListSolicitations::route('/'),
             'create' => Pages\CreateSolicitation::route('/create'),
             'edit' => Pages\EditSolicitation::route('/{record}/edit'),
+            'show' => Pages\ShowSolicitation::route('/{record}'),
         ];
     }
 }

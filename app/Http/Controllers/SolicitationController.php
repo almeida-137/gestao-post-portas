@@ -126,5 +126,12 @@ class SolicitationController extends Controller
 
         return $response;
     }
+
+    public function show(Solicitation $record)
+    {
+        return view('filament.resources.solicitation-resource.pages.show-solicitation', [
+            'record' => $record,
+        ]);
+    }
         
 }
