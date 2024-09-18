@@ -12,6 +12,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Actions\BulkAction;
+
 
 class SolicitationResource extends Resource
 {
@@ -31,7 +33,8 @@ class SolicitationResource extends Resource
                         'Paulete BSB' => 'Paulete BSB',
                         'Paulete GO' => 'Paulete GO',
                     ])
-                    ->required(),
+                    ->required()
+                    ->placeholder('Selecionar Loja'),
 
                 Forms\Components\TextInput::make('dataDoPedido')
                     ->type('date')
@@ -100,7 +103,9 @@ class SolicitationResource extends Resource
                             ])
                             ->required()
                             ->label('Filetação')
-                            ->columnSpan(1),
+                            ->columnSpan(1)
+                            ->placeholder('Selecionar Filetação'),
+                            
 
                         // Forms\Components\TextInput::make('cor_pintura'),
                         // Forms\Components\TextInput::make('cor_borda_pintura'),
@@ -132,9 +137,9 @@ class SolicitationResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('id'),
                 Tables\Columns\TextColumn::make('cliente'),
-                Tables\Columns\TextColumn::make('dataDoPedido'),
                 Tables\Columns\TextColumn::make('loja'),
-                // Tables\Columns\TextColumn::make('montador'),
+                Tables\Columns\TextColumn::make('dataDoPedido'),
+                Tables\Columns\TextColumn::make('montador'),
             ])
             ->filters([
                 //
@@ -147,9 +152,17 @@ class SolicitationResource extends Resource
                     ->label('Editar'),
                 Tables\Actions\DeleteAction::make()
                     ->label('Deletar'),
+                // Tables\Actions\Action::make('Exportar CSV')
+                //     ->url(route('solicitations.export'))
+                //     ->requiresConfirmation()
+                //     ->color('success'),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
+                // BulkAction::make('Exportar Selecionados')
+                // ->action('exportSelected')
+                // ->requiresConfirmation()
+                // ->color('success'),
             ]);
     }
 

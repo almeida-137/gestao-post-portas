@@ -15,6 +15,12 @@ class ListSolicitations extends ListRecords
         return [
             Actions\CreateAction::make()
                 ->label('Adicionar Solicitação'),
+            Actions\Action::make('exportarTodas')
+                ->label('Exportar Todas')
+                ->action(function () {
+                    return redirect()->route('solicitations.export-all');
+                })
+                ->color('success'),
         ];
     }
 }
