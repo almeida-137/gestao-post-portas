@@ -10,6 +10,7 @@ class EditSolicitation extends EditRecord
 {
     protected static string $resource = SolicitationResource::class;
     protected static ?string $title = 'Editar Solicitação';
+    protected ?string $maxContentWidth = 'full';
     protected function getHeaderActions(): array
     {
         return [

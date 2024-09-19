@@ -15,6 +15,7 @@ class CreateSolicitationTable extends Migration
             $table->date('dataDoPedido');
             $table->string('cliente');
             $table->string('montador');
+            $table->enum('status', ['Enviado', 'Em Produção', 'Produção 3CAD', 'Pedido Vitralle', 'Concluído']);
             $table->json('itens')->nullable();
             $table->timestamps();
         });

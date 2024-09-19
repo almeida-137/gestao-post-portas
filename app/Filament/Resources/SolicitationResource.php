@@ -46,6 +46,18 @@ class SolicitationResource extends Resource
 
                 Forms\Components\TextInput::make('montador')
                     ->required(),
+                    Forms\Components\Select::make('status')
+                    ->options([
+                        'Enviado' => 'Enviado',
+                        'Em Produção' => 'Em Produção',
+                        'Produção 3CAD' => 'Produção 3CAD',
+                        'Pedido Vitralle' => 'Pedido Vitralle',
+                        'Concluído' => 'Concluído',
+                    ])
+                    ->label('Status')
+                    ->hidden(fn ($livewire) => $livewire instanceof Pages\CreateSolicitation) // Ocultar na criação
+                    ->placeholder('Alterar Status') // Placeholder para quando nenhum valor for selecionado
+                    ->default('Enviado'), // Define o valor padrão ao criar
 
                 // Defina a estrutura de itens
                 Forms\Components\Repeater::make('itens')
@@ -92,15 +104,15 @@ class SolicitationResource extends Resource
 
                             Forms\Components\Select::make('filetacao')
                             ->options([
-                                '0L 0H',
-                                '0L 1H',
-                                '0L 2H',
-                                '1L 0H',
-                                '1L 1H',
-                                '1L 2H',
-                                '2L 0H',
-                                '2L 1H',
-                                '2L 2H',
+                                '0L 0H' => '0L 0H',
+                                '0L 1H' => '0L 1H',
+                                '0L 2H' => '0L 2H',
+                                '1L 0H' => '1L 0H',
+                                '1L 1H' => '1L 1H',
+                                '1L 2H' => '1L 2H',
+                                '2L 0H' => '2L 0H',
+                                '2L 1H' => '2L 1H',
+                                '2L 2H' => '2L 2H',
                             ])
                             ->required()
                             ->label('Filetação')
@@ -135,16 +147,48 @@ class SolicitationResource extends Resource
     public static function table(Tables\Table $table): Tables\Table
     {
         return $table
-            ->columns([
-                Tables\Columns\TextColumn::make('id'),
-                Tables\Columns\TextColumn::make('cliente'),
-                Tables\Columns\TextColumn::make('loja'),
-                Tables\Columns\TextColumn::make('dataDoPedido'),
-                Tables\Columns\TextColumn::make('montador'),
+        ->columns([
+            Tables\Columns\TextColumn::make('id')
+                ->searchable(),
+            Tables\Columns\TextColumn::make('cliente')
+                ->searchable(),
+            Tables\Columns\TextColumn::make('loja')
+                ->searchable(),
+            Tables\Columns\TextColumn::make('dataDoPedido')
+                ->sortable() // Permite ordenar
+                ->label('Data')
+                ->date(), // Formata como data
+            Tables\Columns\TextColumn::make('montador'),
+            Tables\Columns\TextColumn::make('status')
+                ->searchable(),
         ])
-            ->filters([
-                //
-            ])
+        ->filters([
+            Tables\Filters\SelectFilter::make('status')
+                ->options([
+                    'Enviado' => 'Enviado',
+                    'Em Produção' => 'Em Produção',
+                    'Produção 3CAD' => 'Produção 3CAD',
+                    'Pedido Vitralle' => 'Pedido Vitralle',
+                    'Concluído' => 'Concluído',
+                ]),
+            Tables\Filters\SelectFilter::make('loja')
+                ->options([
+                    'Paulete BSB' => 'Paulete BSB',
+                    'Paulete GO' => 'Paulete GO',
+                ]),
+            Tables\Filters\Filter::make('dataDoPedido')
+                ->form([
+                    Forms\Components\DatePicker::make('data_inicial')
+                        ->label('Data Inicial'),
+                    Forms\Components\DatePicker::make('data_final')
+                        ->label('Data Final'),
+                ])
+                ->query(function (Builder $query, array $data) {
+                    return $query
+                        ->when($data['data_inicial'], fn ($query) => $query->whereDate('dataDoPedido', '>=', $data['data_inicial']))
+                        ->when($data['data_final'], fn ($query) => $query->whereDate('dataDoPedido', '<=', $data['data_final']));
+                }),
+        ])
             // ->headerActions([
             //     Tables\Actions\CreateAction::make(),
             // ])

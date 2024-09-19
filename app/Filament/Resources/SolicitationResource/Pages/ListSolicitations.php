@@ -10,6 +10,7 @@ class ListSolicitations extends ListRecords
 {
     protected static string $resource = SolicitationResource::class;
     protected static ?string $title = 'Listagem de Solicitações';
+    protected ?string $maxContentWidth = 'full';
     protected function getHeaderActions(): array
     {
         return [

@@ -15,6 +15,7 @@ class Solicitation extends Model
         'dataDoPedido',
         'cliente',
         'montador',
+        'status',
         'itens',
     ];
 
