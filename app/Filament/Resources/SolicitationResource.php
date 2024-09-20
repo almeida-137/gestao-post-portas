@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Actions\BulkAction;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use App\Exports\SolicitationsExport;
+use App\Http\Controllers\PDFController;
+use Filament\Pages\Actions\ButtonAction;
 
 class SolicitationResource extends Resource
 {
@@ -193,6 +195,13 @@ class SolicitationResource extends Resource
             //     Tables\Actions\CreateAction::make(),
             // ])
             ->actions([
+                Tables\Actions\Action::make('generatePDF')
+                ->label('PDF')
+                ->action(function ($record) {
+                    // Redireciona para a rota que gera o PDF, passando o ID da solicitação
+                    return redirect()->action([PDFController::class, 'generatePDF'], ['id' => $record->id]);
+                })
+                ->color('primary'),
                 // Tables\Actions\Action::make('Detalhes')
                 //     ->url(fn ($record) => route('admin.solicitations.show', $record)),
                 Tables\Actions\EditAction::make()
