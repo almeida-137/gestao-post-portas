@@ -21,7 +21,8 @@ class ListSolicitations extends ListRecords
                 ->action(function () {
                     return redirect()->route('solicitations.export-all');
                 })
-                ->color('success'),
+                ->color('success')
+                ->visible(fn () => auth()->user()->type === 'interno'), 
         ];
     }
 }

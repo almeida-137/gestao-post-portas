@@ -41,7 +41,8 @@ class SolicitationResource extends Resource
 
                 Forms\Components\TextInput::make('dataDoPedido')
                     ->type('date')
-                    ->required(),
+                    ->required()
+                    ->default(now()->format('d-m-Y')),
 
                 Forms\Components\TextInput::make('cliente')
                     ->required(),
@@ -191,6 +192,7 @@ class SolicitationResource extends Resource
                         ->when($data['data_final'], fn ($query) => $query->whereDate('dataDoPedido', '<=', $data['data_final']));
                 }),
         ])
+        
             // ->headerActions([
             //     Tables\Actions\CreateAction::make(),
             // ])
@@ -201,16 +203,20 @@ class SolicitationResource extends Resource
                     // Redireciona para a rota que gera o PDF, passando o ID da solicitação
                     return redirect()->action([PDFController::class, 'generatePDF'], ['id' => $record->id]);
                 })
-                ->color('primary'),
+                ->color('primary')
+                ->visible(fn () => auth()->user()->type === 'interno'), 
                 // Tables\Actions\Action::make('Detalhes')
                 //     ->url(fn ($record) => route('admin.solicitations.show', $record)),
                 Tables\Actions\EditAction::make()
-                    ->label('Editar'),
+                    ->label('Editar')
+                    ->visible(fn () => auth()->user()->type === 'interno'), 
                 Tables\Actions\DeleteAction::make()
-                    ->label('Deletar'),
+                    ->label('Deletar')
+                    ->visible(fn () => auth()->user()->type === 'interno'), 
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\DeleteBulkAction::make()
+                    ->visible(fn () => auth()->user()->type === 'interno'), 
                 // ExportBulkAction::make()              
             ]);
     }
