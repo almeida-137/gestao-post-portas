@@ -55,7 +55,24 @@
         }
 
         .page-break {
-            page-break-after: always; /* Garante que haverá uma quebra de página após cada item */
+            page-break-after: always;
+        }
+
+        .anexo-container {
+            margin-top: 60px;
+            text-align: center;
+            clear: both; /* Garante que a div de anexos fique abaixo da tabela */
+        }
+
+        .anexo {
+            display: inline-block;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .anexo img {
+            max-width: 320px;
+            max-height: 320px;
         }
     </style>
 </head>
@@ -101,8 +118,21 @@
                 <td class='itens'>{{ $peca['motivo'] }}</td>
             </tr>
         </table>
+
+        <!-- Verifique e exiba os anexos, se forem PNG -->
+        @if(isset($peca['anexos']) && is_array($peca['anexos']))
+            <div class="anexo-container">
+                @foreach($peca['anexos'] as $anexo)
+                    @if(pathinfo($anexo, PATHINFO_EXTENSION) === 'png')
+                        <div class="anexo">
+                            <img src="{{ asset('storage/' . $anexo) }}" alt="Anexo do Item">
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+        @endif
         
-        @if ($index < count($solicitation->itens) - 1) <!-- Adiciona a quebra apenas se não for o último item -->
+        @if ($index < count($solicitation->itens) - 1)
             <div class="page-break"></div>
         @endif
     @endforeach
