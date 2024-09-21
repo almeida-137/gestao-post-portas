@@ -14,11 +14,12 @@ class PDFController extends Controller
     {
         // Buscar a solicitação pelo ID
         $solicitation = Solicitation::findOrFail($id);
-        // $logo_url = asset('images/custom_logo.png');
+        $logo_url = asset('images/custom_logo.png');
+        $logo_path = public_path('images/custom_logo.png');
         // Carregar o template e passar os dados da solicitação
         $html = View::make('pdf.solicitation', [
             'solicitation' => $solicitation,
-            // 'logo_url' => $logo_url,
+            'logo_url' => $logo_url,
         ])->render();
 
         // Inicializar DOMPDF

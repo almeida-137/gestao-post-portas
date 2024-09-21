@@ -19,7 +19,7 @@
         td {
             border: 1px solid black;
             border-collapse: collapse;
-            padding: 5px
+            padding: 5px;
         }
 
         table {
@@ -48,15 +48,25 @@
         .itens-table {
             font-size: 14px;
         }
+
         .itens {
             text-align: center;
             font-size: 12px;
+        }
+
+        .page-break {
+            page-break-after: always; /* Garante que haverá uma quebra de página após cada item */
         }
     </style>
 </head>
 
 <body>
     <table>
+        <tr>
+            <th class='ant'>
+                <img class='logo' src="{{ $logo_url }}" alt="Logo">
+            </th>
+        </tr>
         <tr>
             <th>Pedido Fábrica</th>
         </tr>
@@ -72,27 +82,27 @@
     </table>
 
     <h3>PEÇAS:</h3>
-<table class='itens-table'>
-    <tr>
-        <th>Quantidade</th>
-        <th>Dimensões</th>
-        <th>Cor</th>
-        <th>Cor Borda</th>
-        <th>Observação</th>
-        <th>Motivo</th>
-    </tr>
     @foreach($solicitation->itens as $peca)
-    <tr>
-        <td class='itens'>{{ $peca['quantidade'] }}</td>
-        <td class='itens'>{{ $peca['dimensoes']['largura'] }}x{{ $peca['dimensoes']['altura'] }}x{{ $peca['dimensoes']['profundidade'] }}</td>
-        <td class='itens'>{{ $peca['cor'] }}</td>
-        <td class='itens'>{{ $peca['cor_borda'] }}</td>
-        <td class='itens'>{{ $peca['obs'] }}</td>
-        <td class='itens'>{{ $peca['motivo'] }}</td>
-    </tr>
+        <table class='itens-table'>
+            <tr>
+                <th>Quantidade</th>
+                <th>Dimensões</th>
+                <th>Cor</th>
+                <th>Cor Borda</th>
+                <th>Observação</th>
+                <th>Motivo</th>
+            </tr>
+            <tr>
+                <td class='itens'>{{ $peca['quantidade'] }}</td>
+                <td class='itens'>{{ $peca['dimensoes']['largura'] }}x{{ $peca['dimensoes']['altura'] }}x{{ $peca['dimensoes']['profundidade'] }}</td>
+                <td class='itens'>{{ $peca['cor'] }}</td>
+                <td class='itens'>{{ $peca['cor_borda'] }}</td>
+                <td class='itens'>{{ $peca['obs'] }}</td>
+                <td class='itens'>{{ $peca['motivo'] }}</td>
+            </tr>
+        </table>
+        <div class="page-break"></div> <!-- Adiciona a quebra de página aqui -->
     @endforeach
-</table>
-
 </body>
 
 </html>

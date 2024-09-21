@@ -42,7 +42,7 @@ class SolicitationResource extends Resource
                 Forms\Components\TextInput::make('dataDoPedido')
                     ->type('date')
                     ->required()
-                    ->default(now()->format('d-m-Y')),
+                    ->default(now()->format('Y-m-d')),
 
                 Forms\Components\TextInput::make('cliente')
                     ->required(),
@@ -204,7 +204,8 @@ class SolicitationResource extends Resource
                     return redirect()->action([PDFController::class, 'generatePDF'], ['id' => $record->id]);
                 })
                 ->color('primary')
-                ->visible(fn () => auth()->user()->type === 'interno'), 
+                ->openUrlInNewTab()
+                ->visible(fn () => auth()->user()->type === 'interno'),
                 // Tables\Actions\Action::make('Detalhes')
                 //     ->url(fn ($record) => route('admin.solicitations.show', $record)),
                 Tables\Actions\EditAction::make()
