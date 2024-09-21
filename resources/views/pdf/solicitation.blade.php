@@ -82,7 +82,7 @@
     </table>
 
     <h3>PEÇAS:</h3>
-    @foreach($solicitation->itens as $peca)
+    @foreach($solicitation->itens as $index => $peca)
         <table class='itens-table'>
             <tr>
                 <th>Quantidade</th>
@@ -101,7 +101,10 @@
                 <td class='itens'>{{ $peca['motivo'] }}</td>
             </tr>
         </table>
-        <div class="page-break"></div> <!-- Adiciona a quebra de página aqui -->
+        
+        @if ($index < count($solicitation->itens) - 1) <!-- Adiciona a quebra apenas se não for o último item -->
+            <div class="page-break"></div>
+        @endif
     @endforeach
 </body>
 
