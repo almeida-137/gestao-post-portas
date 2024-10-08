@@ -23,11 +23,11 @@
         }
 
         table {
-            width: 650px;
+            width: 100%;
         }
 
         th {
-            padding: 15px;
+            padding: 5px;
         }
 
         th.ant {
@@ -51,7 +51,7 @@
 
         .itens {
             text-align: center;
-            font-size: 12px;
+            font-size: 10px;
         }
 
         .page-break {
@@ -59,7 +59,7 @@
         }
 
         .anexo-container {
-            margin-top: 60px;
+            margin-top: 40px;
             text-align: center;
             clear: both; /* Garante que a div de anexos fique abaixo da tabela */
         }
@@ -71,8 +71,14 @@
         }
 
         .anexo img {
-            max-width: 320px;
-            max-height: 320px;
+            max-width: 250px;
+            max-height: 250px;
+        }
+        td {
+            max-width: 100px; /* Ajuste este valor conforme necessário */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal; /* Certifique-se de que o texto possa quebrar */
         }
     </style>
 </head>
@@ -123,7 +129,7 @@
         @if(isset($peca['anexos']) && is_array($peca['anexos']))
             <div class="anexo-container">
                 @foreach($peca['anexos'] as $anexo)
-                    @if(pathinfo($anexo, PATHINFO_EXTENSION) === 'png')
+                    @if (in_array(pathinfo($anexo, PATHINFO_EXTENSION), $extensoes_imagens))
                         <div class="anexo">
                             <img src="{{ asset('storage/' . $anexo) }}" alt="Anexo do Item">
                         </div>
@@ -132,9 +138,9 @@
             </div>
         @endif
         
-        @if ($index < count($solicitation->itens) - 1)
+        <!-- @if ($index < count($solicitation->itens) - 1)
             <div class="page-break"></div>
-        @endif
+        @endif -->
     @endforeach
 </body>
 

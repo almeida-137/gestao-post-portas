@@ -35,6 +35,7 @@ class SolicitationResource extends Resource
                     ->options([
                         'Paulete BSB' => 'Paulete BSB',
                         'Paulete GO' => 'Paulete GO',
+                        'AvSoares' => 'AvSoares',
                     ])
                     ->required()
                     ->placeholder('Selecionar Loja'),
@@ -42,7 +43,7 @@ class SolicitationResource extends Resource
                 Forms\Components\TextInput::make('dataDoPedido')
                     ->type('date')
                     ->required()
-                    ->default(now()->format('Y-m-d')),
+                     ->default(now()->format('Y-m-d')),
 
                 Forms\Components\TextInput::make('cliente')
                     ->required(),
@@ -134,7 +135,7 @@ class SolicitationResource extends Resource
                         
                         Forms\Components\FileUpload::make('anexos')
                             ->multiple()
-                            ->required()
+                            // ->required()
                             ->columnSpan(3)
                             ->enableOpen()  // Permite abrir o arquivo
                             ->enableDownload()  // Permite fazer download do arquivo
@@ -151,6 +152,7 @@ class SolicitationResource extends Resource
     {
         return $table
         ->columns([
+            
             Tables\Columns\TextColumn::make('id')
                 ->searchable(),
             Tables\Columns\TextColumn::make('cliente')
@@ -192,7 +194,6 @@ class SolicitationResource extends Resource
                         ->when($data['data_final'], fn ($query) => $query->whereDate('dataDoPedido', '<=', $data['data_final']));
                 }),
         ])
-        
             // ->headerActions([
             //     Tables\Actions\CreateAction::make(),
             // ])
@@ -204,7 +205,6 @@ class SolicitationResource extends Resource
                     return redirect()->action([PDFController::class, 'generatePDF'], ['id' => $record->id]);
                 })
                 ->color('primary')
-                ->openUrlInNewTab()
                 ->visible(fn () => auth()->user()->type === 'interno'),
                 // Tables\Actions\Action::make('Detalhes')
                 //     ->url(fn ($record) => route('admin.solicitations.show', $record)),
@@ -213,7 +213,8 @@ class SolicitationResource extends Resource
                     ->visible(fn () => auth()->user()->type === 'interno'), 
                 Tables\Actions\DeleteAction::make()
                     ->label('Deletar')
-                    ->visible(fn () => auth()->user()->type === 'interno'), 
+                    ->visible(fn () => auth()->user()->type === 'interno')
+                    ->requiresConfirmation(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make()
