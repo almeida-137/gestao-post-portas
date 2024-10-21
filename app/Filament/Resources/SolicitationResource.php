@@ -22,11 +22,8 @@ class SolicitationResource extends Resource
 {
     protected static ?string $model = Solicitation::class;
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationLabel = 'Solicitações';
 
-    public static function getNavigationLabel(): string
-    {
-        return 'Solicitações'; 
-    }
     public static function form(Form $form): Form
     {
         return $form
