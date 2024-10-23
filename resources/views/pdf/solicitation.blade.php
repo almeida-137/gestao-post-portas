@@ -119,7 +119,7 @@
                 <td class='itens'>{{ $peca['quantidade'] }}</td>
                 <td class='itens'>{{ $peca['dimensoes']['largura'] }}x{{ $peca['dimensoes']['altura'] }}x{{ $peca['dimensoes']['profundidade'] }}</td>
                 <td class='itens'>{{ $peca['cor'] }}</td>
-                <td class='itens'>{{ $peca['cor_borda'] }}</td>
+                <td class='itens'>{{ $peca['cor_borda'] }} - {{$peca['filetacao']}}</td>
                 <td class='itens'>{{ $peca['obs'] }}</td>
                 <td class='itens'>{{ $peca['motivo'] }}</td>
             </tr>
