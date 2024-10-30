@@ -25,125 +25,134 @@ class SolicitationResource extends Resource
     protected static ?string $navigationLabel = 'Solicitações';
 
     public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                Forms\Components\Select::make('loja')
-                    ->options([
-                        'Paulete BSB' => 'Paulete BSB',
-                        'Paulete GO' => 'Paulete GO',
-                        'AvSoares' => 'AvSoares',
-                    ])
-                    ->required()
-                    ->placeholder('Selecionar Loja'),
+{
+    return $form
+        ->schema([
+            Forms\Components\Grid::make()
+                ->schema([
+                    Forms\Components\Select::make('loja')
+                        ->options([
+                            'Paulete BSB' => 'Paulete BSB',
+                            'Paulete GO' => 'Paulete GO',
+                            'AvSoares' => 'AvSoares',
+                        ])
+                        ->required()
+                        ->placeholder('Selecionar Loja')
+                        ->columnSpan(['sm' => 1, 'md' => 2]),
 
-                Forms\Components\TextInput::make('dataDoPedido')
-                    ->type('date')
-                    ->required()
-                     ->default(now()->format('Y-m-d')),
+                    Forms\Components\TextInput::make('dataDoPedido')
+                        ->type('date')
+                        ->required()
+                        ->default(now()->format('Y-m-d'))
+                        ->columnSpan(['sm' => 1, 'md' => 1]),
 
-                Forms\Components\TextInput::make('cliente')
-                    ->required(),
+                    Forms\Components\TextInput::make('cliente')
+                        ->required()
+                        ->columnSpan(['sm' => 1, 'md' => 1]),
 
-                Forms\Components\TextInput::make('montador')
-                    ->required(),
-                    Forms\Components\Select::make('status')
-                    ->options([
-                        'Enviado' => 'Enviado',
-                        'Em Produção' => 'Em Produção',
-                        'Produção 3CAD' => 'Produção 3CAD',
-                        'Pedido Vitralle' => 'Pedido Vitralle',
-                        'Concluído' => 'Concluído',
-                    ])
-                    ->label('Status')
-                    ->hidden(fn ($livewire) => $livewire instanceof Pages\CreateSolicitation) // Ocultar na criação
-                    ->placeholder('Alterar Status') // Placeholder para quando nenhum valor for selecionado
-                    ->default('Enviado'), // Define o valor padrão ao criar
-
-                // Defina a estrutura de itens
-                Forms\Components\Repeater::make('itens')
-                    ->schema([
-                        Forms\Components\TextInput::make('ambiente')
-                            ->required()
-                            ->columnSpan(2),
-
-                        Forms\Components\TextInput::make('cod_ambiente')
-                            ->required()
-                            ->columnSpan(1),
-
-                        Forms\Components\TextInput::make('quantidade')
-                            ->type('number')
-                            ->required()
-                            ->columnSpan(1),
-
-                        Forms\Components\TextInput::make('descricao')
-                            ->required()
-                            ->columnSpan(2),
-
-                        Forms\Components\TextInput::make('dimensoes.largura')
-                            ->type('number')
-                            ->required()
-                            ->columnSpan(1),
-
-                        Forms\Components\TextInput::make('dimensoes.altura')
-                            ->type('number')
-                            ->required()
-                            ->columnSpan(1),
-
-                        Forms\Components\TextInput::make('dimensoes.profundidade')
-                            ->type('number')
-                            ->required()
-                            ->columnSpan(1),
-
-                        Forms\Components\TextInput::make('cor')
-                            ->required()
-                            ->columnSpan(1),
-
-                        Forms\Components\TextInput::make('cor_borda')
-                            ->required()
-                            ->columnSpan(1),
-
-                            Forms\Components\Select::make('filetacao')
-                            ->options([
-                                '0L 0H' => '0L 0H',
-                                '0L 1H' => '0L 1H',
-                                '0L 2H' => '0L 2H',
-                                '1L 0H' => '1L 0H',
-                                '1L 1H' => '1L 1H',
-                                '1L 2H' => '1L 2H',
-                                '2L 0H' => '2L 0H',
-                                '2L 1H' => '2L 1H',
-                                '2L 2H' => '2L 2H',
-                            ])
-                            ->required()
-                            ->label('Filetação')
-                            ->columnSpan(1)
-                            ->placeholder('Selecionar Filetação'),
-                            
-
-                        // Forms\Components\TextInput::make('cor_pintura'),
-                        // Forms\Components\TextInput::make('cor_borda_pintura'),
-                        Forms\Components\TextInput::make('motivo')
-                            ->required()
-                            ->columnSpan(1),
-
-                        Forms\Components\Textarea::make('obs')
-                            ->columnSpan(2),
+                    Forms\Components\TextInput::make('montador')
+                        ->required()
+                        ->columnSpan(['sm' => 1, 'md' => 1]),
                         
-                        Forms\Components\FileUpload::make('anexos')
-                            ->multiple()
-                            // ->required()
-                            ->columnSpan(3)
-                            ->enableOpen()  // Permite abrir o arquivo
-                            ->enableDownload()  // Permite fazer download do arquivo
-                            ->maxSize(10240)
-                            ->disk('public'),
-                    ])
-                    ->columns(3)
-                    ->columnSpan('full')
-                    ->createItemButtonLabel('Adicionar Item'),
-            ]);
-    }
+                    Forms\Components\Select::make('status')
+                        ->options([
+                            'Enviado' => 'Enviado',
+                            'Em Produção' => 'Em Produção',
+                            'Produção 3CAD' => 'Produção 3CAD',
+                            'Pedido Vitralle' => 'Pedido Vitralle',
+                            'Concluído' => 'Concluído',
+                        ])
+                        ->label('Status')
+                        ->hidden(fn ($livewire) => $livewire instanceof Pages\CreateSolicitation)
+                        ->placeholder('Alterar Status')
+                        ->default('Enviado')
+                        ->columnSpan(['sm' => 1, 'md' => 2]),
+                ])
+                ->columns([
+                    'sm' => 1, // 1 coluna em telas pequenas (mobile)
+                    'md' => 3, // 3 colunas em telas médias e grandes
+                ]),
+
+            Forms\Components\Repeater::make('itens')
+                ->schema([
+                    Forms\Components\TextInput::make('ambiente')
+                        ->required()
+                        ->columnSpan(['sm' => 1, 'md' => 2]),
+
+                    Forms\Components\TextInput::make('cod_ambiente')
+                        ->required()
+                        ->columnSpan(['sm' => 1, 'md' => 1]),
+
+                    Forms\Components\TextInput::make('quantidade')
+                        ->type('number')
+                        ->required()
+                        ->columnSpan(['sm' => 1, 'md' => 1]),
+
+                    Forms\Components\TextInput::make('descricao')
+                        ->required()
+                        ->columnSpan(['sm' => 1, 'md' => 2]),
+
+                    Forms\Components\TextInput::make('dimensoes.largura')
+                        ->type('number')
+                        ->required()
+                        ->columnSpan(['sm' => 1, 'md' => 1]),
+
+                    Forms\Components\TextInput::make('dimensoes.altura')
+                        ->type('number')
+                        ->required()
+                        ->columnSpan(['sm' => 1, 'md' => 1]),
+
+                    Forms\Components\TextInput::make('dimensoes.profundidade')
+                        ->type('number')
+                        ->required()
+                        ->columnSpan(['sm' => 1, 'md' => 1]),
+
+                    Forms\Components\TextInput::make('cor')
+                        ->required()
+                        ->columnSpan(['sm' => 1, 'md' => 1]),
+
+                    Forms\Components\TextInput::make('cor_borda')
+                        ->required()
+                        ->columnSpan(['sm' => 1, 'md' => 1]),
+
+                    Forms\Components\Select::make('filetacao')
+                        ->options([
+                            '0L 0H' => '0L 0H',
+                            '0L 1H' => '0L 1H',
+                            '0L 2H' => '0L 2H',
+                            '1L 0H' => '1L 0H',
+                            '1L 1H' => '1L 1H',
+                            '1L 2H' => '1L 2H',
+                            '2L 0H' => '2L 0H',
+                            '2L 1H' => '2L 1H',
+                            '2L 2H' => '2L 2H',
+                        ])
+                        ->required()
+                        ->label('Filetação')
+                        ->columnSpan(['sm' => 1, 'md' => 1])
+                        ->placeholder('Selecionar Filetação'),
+
+                    Forms\Components\TextInput::make('motivo')
+                        ->required()
+                        ->columnSpan(['sm' => 1, 'md' => 1]),
+
+                    Forms\Components\Textarea::make('obs')
+                        ->columnSpan(['sm' => 1, 'md' => 2]),
+
+                    Forms\Components\FileUpload::make('anexos')
+                        ->multiple()
+                        ->columnSpan(['sm' => 1, 'md' => 3])
+                        ->enableOpen()
+                        ->enableDownload()
+                        ->maxSize(10240)
+                        ->disk('public'),
+                ])
+                ->columns(3)
+                ->columnSpan('full')
+                ->createItemButtonLabel('Adicionar Item'),
+        ]);
+}
+
 
     public static function table(Tables\Table $table): Tables\Table
     {
