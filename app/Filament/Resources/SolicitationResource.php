@@ -211,20 +211,20 @@ class SolicitationResource extends Resource
                     return redirect()->action([PDFController::class, 'generatePDF'], ['id' => $record->id]);
                 })
                 ->color('primary')
-                ->visible(fn () => auth()->user()->type === 'interno'),
+                ->visible(fn () => auth()->user()->type === 'interno' || 'administrador'),
                 // Tables\Actions\Action::make('Detalhes')
                 //     ->url(fn ($record) => route('admin.solicitations.show', $record)),
                 Tables\Actions\EditAction::make()
                     ->label('Editar')
-                    ->visible(fn () => auth()->user()->type === 'interno'), 
+                    ->visible(fn () => auth()->user()->type === 'interno' || 'administrador'), 
                 Tables\Actions\DeleteAction::make()
                     ->label('Deletar')
-                    ->visible(fn () => auth()->user()->type === 'interno')
+                    ->visible(fn () => auth()->user()->type === 'interno' || 'administrador')
                     ->requiresConfirmation(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make()
-                    ->visible(fn () => auth()->user()->type === 'interno'), 
+                    ->visible(fn () => auth()->user()->type === 'interno' || 'administrador'), 
                 // ExportBulkAction::make()              
             ]);
     }
