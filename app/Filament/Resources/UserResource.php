@@ -9,9 +9,15 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 
 class UserResource extends Resource
 {
+    public static function canViewAny(): bool
+    {
+        // Permite a visualização do recurso somente para usuários do tipo 'administrador'
+        return Auth::user()->type === 'administrador';
+    }
     protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
