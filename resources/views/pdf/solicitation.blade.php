@@ -108,16 +108,18 @@
     @foreach($solicitation->itens as $index => $peca)
         <table class='itens-table'>
             <tr>
+                <th>Ambiente</th>
                 <th>Quantidade</th>
-                <th>Dimensões</th>
+                <th>Descrição</th>
                 <th>Cor</th>
                 <th>Cor Borda</th>
                 <th>Observação</th>
                 <th>Motivo</th>
             </tr>
             <tr>
+                <td class='itens'>{{ $peca['ambiente'] }}</td>
                 <td class='itens'>{{ $peca['quantidade'] }}</td>
-                <td class='itens'>{{ $peca['dimensoes']['largura'] }}x{{ $peca['dimensoes']['altura'] }}x{{ $peca['dimensoes']['profundidade'] }}</td>
+                <td class='itens'>{{ $peca['descricao'] }} - {{ $peca['dimensoes']['largura'] }}x{{ $peca['dimensoes']['altura'] }}x{{ $peca['dimensoes']['profundidade'] }}</td>
                 <td class='itens'>{{ $peca['cor'] }}</td>
                 <td class='itens'>{{ $peca['cor_borda'] }} - {{$peca['filetacao']}}</td>
                 <td class='itens'>{{ $peca['obs'] }}</td>
