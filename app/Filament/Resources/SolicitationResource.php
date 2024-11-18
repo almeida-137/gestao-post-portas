@@ -182,7 +182,8 @@ class SolicitationResource extends Resource
                     'Produção 3CAD' => 'Produção 3CAD',
                     'Pedido Vitralle' => 'Pedido Vitralle',
                     'Concluído' => 'Concluído',
-                ]),
+                ])
+                ->default('Enviado'),
             Tables\Filters\SelectFilter::make('loja')
                 ->options([
                     'Paulete BSB' => 'Paulete BSB',
