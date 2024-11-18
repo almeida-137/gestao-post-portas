@@ -173,6 +173,7 @@ class SolicitationResource extends Resource
             Tables\Columns\TextColumn::make('status')
                 ->searchable(),
         ])
+        ->defaultSort('dataDoPedido', 'desc') // Define a ordenação padrão
         ->filters([
             Tables\Filters\SelectFilter::make('status')
                 ->options([
