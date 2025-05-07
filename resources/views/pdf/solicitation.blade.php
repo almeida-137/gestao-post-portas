@@ -102,6 +102,9 @@
         <tr>
             <td>Montador: {{ $solicitation->montador }}</td>
         </tr>
+        <tr>
+            <td>Loja: {{ $solicitation->loja }}</td>
+        </tr>
     </table>
 
     <h3>PEÇAS:</h3>
